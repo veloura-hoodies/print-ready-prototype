@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>جاهز للطباعة | افحص تصميمك قبل ما تبعته للمطبعة</title>
+<meta name="description" content="ارفع تصميمك، اختار المقاس بالسنتيمتر، واعرف الدقة الفعلية. شيل الخلفية، نزّل PNG شفاف، وخد رسالة مواصفات جاهزة للمطبعة. كله على جهازك.">
+<style>
+:root{--ink:#14110f;--paper:#faf6ee;--card:#fff;--line:#e4dccd;--orange:#ff5a1f;--green:#1f8a4c;--amber:#c98a00;--red:#c8321e;--muted:#6b6258}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Segoe UI",Tahoma,"Noto Naskh Arabic","Noto Sans Arabic",Arial,sans-serif;line-height:1.6}
+header{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:2px solid var(--ink);background:var(--card)}
+header svg{width:40px;height:40px}
+header h1{font-size:20px;margin:0}
+header p{margin:0;color:var(--muted);font-size:13px}
+main{display:grid;grid-template-columns:minmax(300px,380px) 1fr;gap:18px;padding:18px;max-width:1200px;margin:auto}
+@media(max-width:820px){main{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1.5px solid var(--ink);border-radius:12px;padding:16px}
+.panel h2{font-size:15px;margin:0 0 10px;display:flex;gap:8px;align-items:center}
+.panel h2 b{background:var(--ink);color:#fff;border-radius:50%;width:22px;height:22px;display:inline-grid;place-items:center;font-size:12px}
+.panel+.panel{margin-top:14px}
+label{display:block;font-size:13px;margin:8px 0 3px;color:var(--muted)}
+select,input[type=number],input[type=text],textarea{width:100%;padding:8px;border:1.5px solid var(--line);border-radius:8px;font:inherit;background:#fff}
+input[type=range]{width:100%}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.drop{border:2px dashed var(--ink);border-radius:12px;padding:22px;text-align:center;cursor:pointer;background:#fffaf0}
+.drop.over{background:#ffe9dd;border-color:var(--orange)}
+.drop small{display:block;color:var(--muted)}
+button{font:inherit;cursor:pointer;border:1.5px solid var(--ink);background:#fff;border-radius:8px;padding:9px 14px}
+button.primary{background:var(--orange);color:#fff;border-color:var(--ink);font-weight:700}
+button:disabled{opacity:.45;cursor:not-allowed}
+.check{display:flex;gap:8px;align-items:center;margin:8px 0;font-size:14px;color:var(--ink)}
+.stage{position:relative;border-radius:10px;border:1.5px solid var(--line);min-height:300px;display:grid;place-items:center;padding:14px;overflow:hidden}
+.stage.checker{background:conic-gradient(#ddd 25%,#fff 0 50%,#ddd 0 75%,#fff 0) 0 0/20px 20px}
+.stage.white{background:#fff}.stage.black{background:#111}.stage.garment{background:#cdb89a}
+.stage canvas{max-width:100%;max-height:520px;image-rendering:auto}
+.bgsw{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.bgsw button{padding:4px 10px;font-size:13px}.bgsw button.on{background:var(--ink);color:#fff}
+.verdict{border-radius:10px;padding:12px 14px;border:2px solid;font-weight:700}
+.verdict.great{border-color:var(--green);color:var(--green);background:#eaf7ef}
+.verdict.ok{border-color:#4a8f2a;color:#3d7a22;background:#f0f8e8}
+.verdict.warn{border-color:var(--amber);color:#8a5d00;background:#fff6dc}
+.verdict.bad{border-color:var(--red);color:var(--red);background:#fdecea}
+.verdict small{font-weight:400;display:block;color:inherit;font-size:12.5px;line-height:1.5}.verdict .big{font-size:26px;display:block;direction:ltr;text-align:right}
+.facts{font-size:13px;color:var(--muted);margin:10px 0 0;padding:0;list-style:none}
+.facts li{padding:3px 0;border-bottom:1px dotted var(--line)}
+.note{font-size:12.5px;color:var(--muted);margin-top:8px}
+pre#spec{white-space:pre-wrap;background:#fffaf0;border:1.5px dashed var(--ink);border-radius:8px;padding:10px;font:inherit;font-size:13.5px;margin:8px 0}
+.empty{color:var(--muted);text-align:center}
+footer{max-width:1200px;margin:0 auto;padding:6px 18px 26px;color:var(--muted);font-size:12.5px}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:8px 16px;border-radius:20px;opacity:0;transition:.25s;pointer-events:none}
+#toast.show{opacity:1}
+.ltr{display:inline-block;direction:ltr;unicode-bidi:isolate}
+</style>
+</head>
+<body>
+<header>
+  <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="12" fill="#14110f"/><circle cx="32" cy="32" r="17" fill="none" stroke="#faf6ee" stroke-width="3"/><path d="M32 8v10M32 46v10M8 32h10M46 32h10" stroke="#ff5a1f" stroke-width="4" stroke-linecap="round"/><path d="M24 33l6 6 11-13" fill="none" stroke="#ff5a1f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <div><h1>جاهز للطباعة</h1><p>افحص تصميمك بالسنتيمتر قبل المطبعة. الملف مبيتبعتش لأي سيرفر.</p></div>
+</header>
+<main>
+  <section>
+    <div class="panel">
+      <h2><b>1</b> ارفع التصميم</h2>
+      <div class="drop" id="drop" tabindex="0"><strong>اسحب الصورة هنا أو اضغط للاختيار</strong><small>PNG أو JPG أو WebP</small></div>
+      <input type="file" id="file" accept="image/png,image/jpeg,image/webp" hidden>
+    </div>
+    <div class="panel">
+      <h2><b>2</b> مقاس الطباعة</h2>
+      <label for="garment">مكان الطباعة</label>
+      <select id="garment">
+        <option value="8,17,هودي، صدر صغير">هودي، صدر صغير (حتى 8 × 17 سم)</option>
+        <option value="10,10,تيشيرت، شعار صدر">تيشيرت، شعار صدر (10 × 10 سم)</option>
+        <option value="28,35,هودي، صدر كامل" selected>هودي، صدر كامل (حتى 28 × 35 سم)</option>
+        <option value="30,40,ظهر هودي أو تيشيرت">ظهر هودي أو تيشيرت (حتى 30 × 40 سم)</option>
+        <option value="21,29.7,ورق A4 / ستيكر">A4 / ستيكر (21 × 29.7 سم)</option>
+        <option value="custom,,مقاس مخصص">مقاس مخصص</option>
+      </select>
+      <div class="row">
+        <div><label for="wcm">العرض (سم)</label><input type="number" id="wcm" min="1" max="200" step="0.1"></div>
+        <div><label for="hcm">الطول (سم)</label><input type="number" id="hcm" min="1" max="200" step="0.1"></div>
+      </div>
+      <div class="note">النسبة بين العرض والطول بتتحفظ زي الصورة. غيّر العرض أو الطول والتاني يتظبط.</div>
+    </div>
+    <div class="panel">
+      <h2><b>3</b> شيل الخلفية</h2>
+      <label class="check"><input type="checkbox" id="rm"> شيل لون الخلفية</label>
+      <div class="row"><div><label for="bgc">لون الخلفية</label><input type="color" id="bgc" value="#ffffff" style="width:100%;height:36px"></div>
+      <div><label>&nbsp;</label><button id="pick" type="button" style="width:100%">خد اللون من الركن</button></div></div>
+      <label for="tol">الحساسية: <span id="tolv">18</span></label><input type="range" id="tol" min="0" max="60" value="18">
+      <label for="soft">نعومة الحواف: <span id="softv">4</span></label><input type="range" id="soft" min="0" max="20" value="4">
+      <label class="check"><input type="checkbox" id="edge" checked> الخلفية الخارجية بس (يحافظ على الأبيض اللي جوه التصميم)</label>
+    </div>
+  </section>
+  <section>
+    <div class="panel">
+      <div class="bgsw" id="bgsw"><button class="on" data-bg="checker">شفاف</button><button data-bg="white">أبيض</button><button data-bg="black">أسود</button><button data-bg="garment">لون قماش</button></div>
+      <div class="stage checker" id="stage"><div class="empty" id="empty">ارفع صورة عشان تبدأ</div><canvas id="cv" hidden></canvas></div>
+    </div>
+    <div class="panel">
+      <h2><b>4</b> النتيجة</h2>
+      <div id="verdict" class="verdict warn" hidden></div>
+      <ul class="facts" id="facts"></ul>
+      <label class="check"><input type="checkbox" id="up" checked> كبّر الملف المصدَّر لـ 300 DPI (بيزود البكسلات، مش التفاصيل)</label>
+      <div class="row" style="margin-top:6px"><button class="primary" id="dl" disabled>نزّل PNG</button><button id="mk" disabled>اعمل رسالة للمطبعة</button></div>
+      <div id="specbox" hidden>
+        <label for="method">طريقة الطباعة</label>
+        <select id="method"><option value="">مش محددة</option><option value="dtf">DTF</option><option value="dtg">DTG</option><option value="screen">سيلك سكرين</option><option value="vinyl">فينيل / حرارية</option></select>
+        <label for="note">ملاحظة (اختياري)</label><input type="text" id="note" placeholder="مثلا: اللون الأسود على قماش بيج">
+        <pre id="spec"></pre>
+        <button id="copy">انسخ الرسالة</button>
+        <div class="note">بتنسخ النص بس. ابعته للمطبعة بنفسك.</div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>الأداة بتقيس البكسلات الفعلية في الملف وبتحسب الدقة عند المقاس اللي اخترته. مش بتضمن إن المطبعة هتقبل الملف، وقرارها الأخير بيرجع لقواعدها. نموذج أولي (v0.1).</footer>
+<div id="toast"></div>
+<script>(function (root) {
+  'use strict';
+  var CM_PER_IN = 2.54;
+
+  function dpiFor(px, cm) { return px / (cm / CM_PER_IN); }
+  function pxNeeded(cm, dpi) { return Math.ceil(cm / CM_PER_IN * dpi); }
+  function maxCm(px, dpi) { return px / dpi * CM_PER_IN; }
+
+  // levels by effective DPI
+  function verdict(dpi) {
+    if (dpi >= 300) return { level: 'great', label: 'عدد البكسلات كافي لـ 300 DPI' };
+    if (dpi >= 200) return { level: 'ok', label: 'عدد البكسلات مقبول (200 DPI أو أكتر)' };
+    if (dpi >= 150) return { level: 'warn', label: 'عدد البكسلات قليل، متوقع نعومة' };
+    return { level: 'bad', label: 'عدد البكسلات قليل جدا، هيطلع مش واضح' };
+  }
+
+  // Check both sides; the limiting side decides.
+  function assess(wPx, hPx, wCm, hCm) {
+    var dx = dpiFor(wPx, wCm), dy = dpiFor(hPx, hCm);
+    var dpi = Math.min(dx, dy);
+    var v = verdict(dpi);
+    return { dpi: dpi, level: v.level, label: v.label,
+      needW: pxNeeded(wCm, 300), needH: pxNeeded(hCm, 300),
+      max300W: maxCm(wPx, 300), max300H: maxCm(hPx, 300),
+      max200W: maxCm(wPx, 200), max200H: maxCm(hPx, 200) };
+  }
+
+  // Fit image inside a box (cm) keeping aspect ratio.
+  function fitCm(wPx, hPx, boxW, boxH) {
+    var s = Math.min(boxW / wPx, boxH / hPx);
+    return { w: wPx * s, h: hPx * s };
+  }
+
+  // Estimate background color from the 4 corners (median-ish: most common of corners).
+  function guessBg(data, w, h) {
+    var pts = [[0, 0], [w - 1, 0], [0, h - 1], [w - 1, h - 1]];
+    var cols = pts.map(function (p) { var i = (p[1] * w + p[0]) * 4; return [data[i], data[i + 1], data[i + 2], data[i + 3]]; });
+    var best = cols[0], bestN = -1;
+    cols.forEach(function (c) {
+      var n = cols.filter(function (d) { return dist(c, d) < 30; }).length;
+      if (n > bestN) { bestN = n; best = c; }
+    });
+    return best;
+  }
+  function dist(a, b) {
+    var dr = a[0] - b[0], dg = a[1] - b[1], db = a[2] - b[2];
+    return Math.sqrt(dr * dr + dg * dg + db * db);
+  }
+
+  // Remove a background color. tol 0..100, soft 0..40 (feather band).
+  // Flood from edges so same-colored pixels INSIDE the design survive.
+  function removeBg(data, w, h, bg, tol, soft, edgeOnly) {
+    var out = new Uint8ClampedArray(data.length);
+    out.set(data);
+    var T = tol / 100 * 441.67, S = soft / 100 * 441.67;
+    var n = w * h;
+    var isBg = function (i) {
+      if (data[i * 4 + 3] < 8) return true;
+      return dist([data[i * 4], data[i * 4 + 1], data[i * 4 + 2]], bg) <= T;
+    };
+    var mask = new Uint8Array(n); // 1 = background
+    if (edgeOnly) {
+      var stack = [];
+      var push = function (x, y) { var i = y * w + x; if (!mask[i] && isBg(i)) { mask[i] = 1; stack.push(i); } };
+      for (var x = 0; x < w; x++) { push(x, 0); push(x, h - 1); }
+      for (var y = 0; y < h; y++) { push(0, y); push(w - 1, y); }
+      while (stack.length) {
+        var i = stack.pop(), cx = i % w, cy = (i / w) | 0;
+        if (cx > 0) push(cx - 1, cy);
+        if (cx < w - 1) push(cx + 1, cy);
+        if (cy > 0) push(cx, cy - 1);
+        if (cy < h - 1) push(cx, cy + 1);
+      }
+    } else {
+      for (var k = 0; k < n; k++) if (isBg(k)) mask[k] = 1;
+    }
+    for (var j = 0; j < n; j++) {
+      var o = j * 4;
+      if (mask[j]) { out[o + 3] = 0; continue; }
+      if (S > 0) { // soft edge: partially transparent when just outside tolerance
+        var d = dist([data[o], data[o + 1], data[o + 2]], bg);
+        if (d < T + S) {
+          var a = (d - T) / S;
+          // only soften pixels touching removed area, to keep interior intact
+          var touch = false, xx = j % w, yy = (j / w) | 0;
+          if (xx > 0 && mask[j - 1]) touch = true; else if (xx < w - 1 && mask[j + 1]) touch = true;
+          else if (yy > 0 && mask[j - w]) touch = true; else if (yy < h - 1 && mask[j + w]) touch = true;
+          if (touch) out[o + 3] = Math.round(out[o + 3] * a);
+        }
+      }
+    }
+    return out;
+  }
+
+  // ---- PNG: insert pHYs chunk so the file carries its print DPI ----
+  var crcTable = null;
+  function crc32(buf, start, end) {
+    if (!crcTable) { crcTable = new Uint32Array(256); for (var n = 0; n < 256; n++) { var c = n; for (var k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; crcTable[n] = c >>> 0; } }
+    var crc = 0xFFFFFFFF;
+    for (var i = start; i < end; i++) crc = crcTable[(crc ^ buf[i]) & 0xFF] ^ (crc >>> 8);
+    return (crc ^ 0xFFFFFFFF) >>> 0;
+  }
+  function setPngDpi(bytes, dpi) {
+    var sig = [137, 80, 78, 71, 13, 10, 26, 10];
+    for (var s = 0; s < 8; s++) if (bytes[s] !== sig[s]) throw new Error('not a PNG');
+    var ppm = Math.round(dpi / 0.0254);
+    var chunk = new Uint8Array(21);
+    var dv = new DataView(chunk.buffer);
+    dv.setUint32(0, 9);
+    chunk.set([0x70, 0x48, 0x59, 0x73], 4); // pHYs
+    dv.setUint32(8, ppm); dv.setUint32(12, ppm); chunk[16] = 1;
+    dv.setUint32(17, crc32(chunk, 4, 17));
+    // drop existing pHYs, insert after IHDR (8 sig + 25 IHDR)
+    var parts = [bytes.subarray(0, 33), chunk], pos = 33;
+    var v = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+    while (pos < bytes.length) {
+      var len = v.getUint32(pos), type = String.fromCharCode(bytes[pos + 4], bytes[pos + 5], bytes[pos + 6], bytes[pos + 7]);
+      var end = pos + 12 + len;
+      if (type !== 'pHYs') parts.push(bytes.subarray(pos, end));
+      pos = end;
+    }
+    var total = parts.reduce(function (a, p) { return a + p.length; }, 0);
+    var res = new Uint8Array(total), off = 0;
+    parts.forEach(function (p) { res.set(p, off); off += p.length; });
+    return res;
+  }
+  function readPngDpi(bytes) {
+    var v = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength), pos = 8;
+    while (pos < bytes.length) {
+      var len = v.getUint32(pos), type = String.fromCharCode(bytes[pos + 4], bytes[pos + 5], bytes[pos + 6], bytes[pos + 7]);
+      if (type === 'pHYs') return Math.round(v.getUint32(pos + 8) * 0.0254);
+      pos += 12 + len;
+    }
+    return null;
+  }
+
+
+  // ---- Sharpness estimate (heuristic) ----
+  // Measures how many pixels a typical strong edge takes to go from dark to light.
+  // Crisp edge: ~1 px. Blurry or upscaled image: several px. Returns edgePx (median)
+  // or null when the image has too few strong edges to judge.
+  function lumOf(data, n) {
+    var L = new Float32Array(n);
+    for (var i = 0; i < n; i++) {
+      var a = data[i * 4 + 3] / 255;
+      L[i] = (0.299 * data[i * 4] + 0.587 * data[i * 4 + 1] + 0.114 * data[i * 4 + 2]) * a + 255 * (1 - a);
+    }
+    return L;
+  }
+  function sharpness(data, w, h) {
+    var cw = Math.min(w, 1600), ch = Math.min(h, 1600), ox = Math.floor((w - cw) / 2), oy = Math.floor((h - ch) / 2);
+    var L = new Float32Array(cw * ch);
+    var full = lumOf(data, w * h);
+    for (var y = 0; y < ch; y++) for (var x = 0; x < cw; x++) L[y * cw + x] = full[(y + oy) * w + x + ox];
+    var rs = [], usedR = 5;
+    function scan(R, get, len, lines) {
+      for (var ln = 0; ln < lines; ln += 2) {
+        for (var i = R; i < len - R - 1; i++) {
+          var step = Math.abs(get(ln, i + 1) - get(ln, i));
+          if (step < 2) continue;
+          if (step < Math.abs(get(ln, i) - get(ln, i - 1)) || step <= Math.abs(get(ln, i + 2) - get(ln, i + 1))) continue; // local max only
+          var contrast = Math.abs(get(ln, i + R) - get(ln, i - R + 1));
+          if (contrast < 90) continue;
+          rs.push(Math.min(1, step / contrast));
+        }
+      }
+    }
+    var Rs = [5, 12, 30, 70];
+    for (var q = 0; q < Rs.length; q++) {
+      rs = []; usedR = Rs[q];
+      scan(usedR, function (ln, i) { return L[ln * cw + i]; }, cw, ch);
+      scan(usedR, function (ln, i) { return L[i * cw + ln]; }, ch, cw);
+      if (rs.length >= 40) break;
+    }
+    if (rs.length < 40) return { edgePx: null, edges: rs.length, soft: false, known: false };
+    rs.sort(function (a, b) { return a - b; });
+    var r = rs[Math.floor(rs.length / 2)];
+    var edgePx = 1 / r;
+    return { edgePx: edgePx, edges: rs.length, soft: edgePx >= 2.5, known: true, window: usedR };
+  }
+  // Physical width of that soft edge at the chosen print size.
+  function edgeMm(edgePx, pxPerCm) { return edgePx / pxPerCm * 10; }
+
+  var METHODS = {
+    dtf: 'DTF (طباعة على فيلم)',
+    dtg: 'DTG (طباعة مباشرة على القماش)',
+    screen: 'سيلك سكرين',
+    vinyl: 'فينيل / حرارية'
+  };
+
+  // Text the user can paste to a print shop. Pure function.
+  function lt(s) { return '\u2066' + s + '\u2069'; }
+  function specText(o) {
+    var L = [];
+    L.push('مواصفات ملف الطباعة');
+    if (o.garment) L.push('القطعة: ' + o.garment);
+    L.push('المقاس المطلوب: ' + lt(o.wCm.toFixed(1) + ' × ' + o.hCm.toFixed(1)) + ' سم');
+    if (o.native && (o.native.w !== o.wPx || o.native.h !== o.hPx)) {
+      L.push('أبعاد الملف: ' + lt(o.wPx + ' × ' + o.hPx) + ' بكسل (مكبّر من ' + lt(o.native.w + ' × ' + o.native.h) + ')');
+      L.push('الدقة الحقيقية للتصميم الأصلي عند المقاس: ' + lt(Math.round(o.native.dpi) + ' DPI') + ' (' + o.native.label + ')');
+      L.push('تنبيه: التكبير بيزود عدد البكسلات بس، مش التفاصيل.');
+    } else {
+      L.push('أبعاد الملف: ' + lt(o.wPx + ' × ' + o.hPx) + ' بكسل');
+      L.push('الدقة الفعلية عند المقاس: ' + lt(Math.round(o.dpi) + ' DPI') + ' (' + o.label + ')');
+    }
+    L.push('الخلفية: ' + (o.transparent ? 'شفافة (PNG)' : 'مصمتة'));
+    if (o.method && METHODS[o.method]) L.push('طريقة الطباعة المقترحة: ' + METHODS[o.method]);
+    if (o.soft) L.push('تنبيه: حواف التصميم ناعمة' + (o.edgePx ? ' (الحافة حوالي ' + lt(o.edgePx.toFixed(1)) + ' بكسل)' : '') + '، يعني التفاصيل الفعلية أقل من عدد البكسلات.');
+    else L.push('ملحوظة: الأرقام دي عدد بكسلات، مش قياس للوضوح.');
+    if (o.note) L.push('ملاحظات: ' + o.note);
+    L.push('رجاء المراجعة قبل الطباعة وتأكيد أن الجودة مناسبة.');
+    return L.join('\n');
+  }
+
+  var api = { dpiFor: dpiFor, pxNeeded: pxNeeded, maxCm: maxCm, verdict: verdict, assess: assess, fitCm: fitCm,
+    guessBg: guessBg, sharpness: sharpness, edgeMm: edgeMm, removeBg: removeBg, setPngDpi: setPngDpi, readPngDpi: readPngDpi, specText: specText, METHODS: METHODS };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.PR = api;
+})(typeof self !== 'undefined' ? self : this);
+</script>
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+var st={img:null,w:0,h:0,orig:null,cur:null,wcm:0,hcm:0,garment:''};
+var cv=$('cv'),ctx=cv.getContext('2d',{willReadFrequently:true});
+
+function toast(m){var t=$('toast');t.textContent=m;t.className='show';setTimeout(function(){t.className=''},1800)}
+
+function loadBitmap(src){return new Promise(function(res,rej){var im=new Image();im.onload=function(){res(im)};im.onerror=function(){rej(new Error('تعذر قراءة الصورة'))};im.src=src})}
+function loadFile(f){
+  if(!/^image\/(png|jpeg|webp)$/.test(f.type)){toast('الملف لازم يكون PNG أو JPG أو WebP');return Promise.resolve(false)}
+  return loadSrc(URL.createObjectURL(f));
+}
+function loadSrc(src){return loadBitmap(src).then(function(im){
+  st.w=im.naturalWidth;st.h=im.naturalHeight;cv.width=st.w;cv.height=st.h;
+  ctx.clearRect(0,0,st.w,st.h);ctx.drawImage(im,0,0);
+  st.orig=ctx.getImageData(0,0,st.w,st.h);st.sh=PR.sharpness(st.orig.data,st.w,st.h);
+  var bg=PR.guessBg(st.orig.data,st.w,st.h);
+  $('bgc').value=hex(bg);
+  applyPreset();render();
+  $('empty').hidden=true;cv.hidden=false;$('dl').disabled=false;$('mk').disabled=false;
+  return true;
+}).catch(function(e){toast(e.message);return false})}
+function hex(c){return '#'+[0,1,2].map(function(i){return ('0'+c[i].toString(16)).slice(-2)}).join('')}
+function rgb(h){return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]}
+
+function applyPreset(){
+  var p=$('garment').value.split(','),box=p[0];st.garment=p[2];
+  if(!st.w)return;
+  if(box!=='custom'){var f=PR.fitCm(st.w,st.h,parseFloat(p[0]),parseFloat(p[1]));st.wcm=round1(f.w);st.hcm=round1(f.h)}
+  else if(!st.wcm){st.wcm=10;st.hcm=round1(10*st.h/st.w)}
+  $('wcm').value=st.wcm;$('hcm').value=st.hcm;
+}
+function round1(x){return Math.round(x*10)/10}
+
+function currentData(){
+  if(!st.orig)return null;
+  if($('rm').checked){
+    var out=PR.removeBg(st.orig.data,st.w,st.h,rgb($('bgc').value),+$('tol').value,+$('soft').value,$('edge').checked);
+    return new ImageData(out,st.w,st.h);
+  }
+  return st.orig;
+}
+function render(){
+  if(!st.orig)return;
+  st.cur=currentData();ctx.putImageData(st.cur,0,0);
+  var transparent=$('rm').checked;
+  var a=PR.assess(st.w,st.h,st.wcm,st.hcm);st.a=a;
+  var v=$('verdict');v.hidden=false;v.className='verdict '+a.level;
+  var lvl=a.level,txt=a.label;
+  if(st.sh&&st.sh.soft){txt+='<br><small>تنبيه: حواف الصورة ناعمة (شكلها متكبّرة أو مبهمة)، فالرقم ده بيعدّ بكسلات بس والتفاصيل الحقيقية أقل. راجع المطبعة قبل الطباعة.</small>';if(lvl==='great'||lvl==='ok')lvl='warn'}
+  else{txt+='<br><small>الرقم بيعدّ البكسلات، مش بيضمن الوضوح ولا قبول المطبعة.</small>'}
+  v.className='verdict '+lvl;
+  v.innerHTML='<span class="big">'+Math.round(a.dpi)+' DPI</span>'+txt;
+  var F=[];
+  F.push('أبعاد الملف: <b class="ltr">'+st.w+' × '+st.h+'</b> بكسل');
+  F.push('المقاس المختار: <b class="ltr">'+st.wcm.toFixed(1)+' × '+st.hcm.toFixed(1)+'</b> سم');
+  F.push('بكسلات 300 DPI المطلوبة للمقاس ده: <b class="ltr">'+a.needW+' × '+a.needH+'</b>');
+  F.push('أكبر مقاس بجودة 300 DPI من الملف ده: <b class="ltr">'+a.max300W.toFixed(1)+' × '+a.max300H.toFixed(1)+'</b> سم');
+  F.push('أكبر مقاس بجودة 200 DPI: <b class="ltr">'+a.max200W.toFixed(1)+' × '+a.max200H.toFixed(1)+'</b> سم');
+  var s=st.sh,ppc=st.w/st.wcm;
+  if(s&&s.known){F.push('حدة الحواف (تقدير): الحافة بتاخد <b class="ltr">'+s.edgePx.toFixed(1)+'</b> بكسل، يعني حوالي <b class="ltr">'+PR.edgeMm(s.edgePx,ppc).toFixed(2)+'</b> مم عند المقاس ده')}
+  else{F.push('حدة الحواف: مقدرتش أحكم (مفيش حواف واضحة كفاية). عدد البكسلات لوحده مش بيثبت إن التفاصيل واضحة.')}
+  F.push('الخلفية: <b>'+(transparent?'هتتصدّر شفافة':'زي ما هي')+'</b>');
+  $('facts').innerHTML=F.map(function(x){return '<li>'+x+'</li>'}).join('');
+  refreshSpec();
+}
+function refreshSpec(){
+  if($('specbox').hidden||!st.a)return;
+  $('spec').textContent=PR.specText({garment:st.garment,wCm:st.wcm,hCm:st.hcm,wPx:exportSize().w,hPx:exportSize().h,dpi:exportDpi(),label:PR.verdict(exportDpi()).label,native:{w:st.w,h:st.h,dpi:st.a.dpi,label:st.a.label},soft:st.sh&&st.sh.soft,edgePx:st.sh&&st.sh.known?st.sh.edgePx:null,transparent:$('rm').checked,method:$('method').value,note:$('note').value.trim()});
+}
+function exportSize(){
+  if($('up').checked&&st.a&&st.a.dpi<300)return{w:st.a.needW,h:st.a.needH};
+  return{w:st.w,h:st.h};
+}
+function exportDpi(){var s=exportSize();return Math.min(PR.dpiFor(s.w,st.wcm),PR.dpiFor(s.h,st.hcm))}
+
+function exportPng(){
+  return new Promise(function(res){
+    var s=exportSize(),c=document.createElement('canvas');c.width=s.w;c.height=s.h;
+    var x=c.getContext('2d');x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';
+    var tmp=document.createElement('canvas');tmp.width=st.w;tmp.height=st.h;tmp.getContext('2d').putImageData(st.cur||st.orig,0,0);
+    x.drawImage(tmp,0,0,s.w,s.h);
+    c.toBlob(function(b){b.arrayBuffer().then(function(buf){
+      var bytes=PR.setPngDpi(new Uint8Array(buf),Math.round(exportDpi()));
+      res({bytes:bytes,w:s.w,h:s.h,dpi:Math.round(exportDpi())});
+    })},'image/png');
+  });
+}
+
+// events
+var drop=$('drop'),file=$('file');
+drop.onclick=function(){file.click()};
+drop.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();file.click()}};
+file.onchange=function(){if(file.files[0])loadFile(file.files[0])};
+['dragover','dragenter'].forEach(function(n){drop.addEventListener(n,function(e){e.preventDefault();drop.classList.add('over')})});
+['dragleave','drop'].forEach(function(n){drop.addEventListener(n,function(e){e.preventDefault();drop.classList.remove('over')})});
+drop.addEventListener('drop',function(e){if(e.dataTransfer.files[0])loadFile(e.dataTransfer.files[0])});
+$('garment').onchange=function(){st.wcm=0;applyPreset();render()};
+$('wcm').oninput=function(){var v=parseFloat(this.value);if(!(v>0)||!st.w)return;st.wcm=v;st.hcm=round1(v*st.h/st.w);$('hcm').value=st.hcm;render()};
+$('hcm').oninput=function(){var v=parseFloat(this.value);if(!(v>0)||!st.w)return;st.hcm=v;st.wcm=round1(v*st.w/st.h);$('wcm').value=st.wcm;render()};
+['rm','bgc','edge','up','method','note'].forEach(function(i){$(i).oninput=$(i).onchange=function(){render()}});
+$('tol').oninput=function(){$('tolv').textContent=this.value;render()};
+$('soft').oninput=function(){$('softv').textContent=this.value;render()};
+$('pick').onclick=function(){if(!st.orig)return;$('bgc').value=hex(PR.guessBg(st.orig.data,st.w,st.h));$('rm').checked=true;render()};
+$('bgsw').onclick=function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(this.children,function(x){x.classList.remove('on')});b.classList.add('on');$('stage').className='stage '+b.dataset.bg};
+$('dl').onclick=function(){exportPng().then(function(r){
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([r.bytes],{type:'image/png'}));a.download='print-ready-'+r.w+'x'+r.h+'.png';document.body.appendChild(a);a.click();a.remove();
+  toast('تم التنزيل: '+r.w+'×'+r.h+' بكسل، '+r.dpi+' DPI')})};
+$('mk').onclick=function(){$('specbox').hidden=false;refreshSpec()};
+$('copy').onclick=function(){var t=$('spec').textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast('اتنسخت')},function(){var r=document.createRange();r.selectNodeContents($('spec'));var s=getSelection();s.removeAllRanges();s.addRange(r);var ok=false;try{ok=document.execCommand('copy')}catch(e){}toast(ok?'اتنسخت':'النص اتحدد، انسخه بإيدك')})};
+
+// test hook
+window.__pr={sharp:function(){return st.sh},loadSrc:loadSrc,state:st,render:render,exportPng:exportPng,$:$};
+})();
+</script>
+</body>
+</html>
